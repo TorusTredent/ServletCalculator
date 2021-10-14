@@ -1,4 +1,4 @@
-package tms;
+package by.tms;
 
 public interface ServiceCalcul {
     String sum(String num1, String num2);
