@@ -18,8 +18,8 @@ public class ShowCalculatorMemoryServlet extends HttpServlet {
         List<String> history = CalculatorStorage.getHistoryList();
 
         if (!history.isEmpty()) {
-            for (String list : history) {
-                resp.getWriter().println(list);
+            for (int i = history.size(); i > 0; i--) {
+                resp.getWriter().println(history.get(i));
             }
         } else {
             resp.getWriter().println("History is empty");
