@@ -2,7 +2,6 @@ package by.tms.servlet;
 
 
 import by.tms.service.imp.RegistrationServiceImp;
-import by.tms.storage.UserStorage;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -11,7 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet("/registration")
+@WebServlet(value = "/registration", name = "RegistrationServlet")
 public class RegistrationServlet extends HttpServlet {
 
     private final RegistrationServiceImp registration = new RegistrationServiceImp();
@@ -22,15 +21,11 @@ public class RegistrationServlet extends HttpServlet {
         String username = req.getParameter("username");
         String password = req.getParameter("password");
 
-        if (!checkInputValuesForNull(name, username, password)) {
-            resp.getWriter().println("Name, username or password not entered");
+        if (checkNewUsername(username)) {
+            createUser(name, username, password);
+            resp.getWriter().println("User create!");
         } else {
-            if (checkNewUsername(username)) {
-                createUser(name, username, password);
-                resp.getWriter().println("User create!");
-            } else {
-                resp.getWriter().println("Username is already used");
-            }
+            resp.getWriter().println("Username is already used");
         }
     }
 
@@ -39,19 +34,8 @@ public class RegistrationServlet extends HttpServlet {
         registration.createUser(name, username, password);
     }
 
-    private boolean checkInputValuesForNull(String name, String username, String password) {
-        if (name != null && username != null && password != null) {
-            return !name.isEmpty() && !username.isEmpty() && !password.isEmpty();
-        }
-        return false;
-    }
-
     private boolean checkNewUsername(String username) {
-        if (UserStorage.listIsEmpty()) {
-            return true;
-        } else {
-            return registration.checkNewUsernameInMemory(username);
-        }
+        return registration.checkUniqUsername(username);
     }
 
 }

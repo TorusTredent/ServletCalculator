@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @WebFilter(servletNames = {"CalculatorServlet", "ChangerNameServlet", "ChangerPasswordServlet",
-        "ShowCalculatorMemoryServlet", "LogOut"})
+        "ShowCalculatorMemoryServlet", "LogOut", "RemoveOperationListServlet", "DeleteUserProfileServlet"})
 public class AuthorizationFilter extends HttpFilter {
 
     @Override

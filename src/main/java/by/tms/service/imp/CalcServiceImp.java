@@ -1,7 +1,7 @@
 package by.tms.service.imp;
 
+import by.tms.repository.CalculatorRepository;
 import by.tms.service.CalcService;
-import by.tms.storage.CalculatorStorage;
 
 public class CalcServiceImp implements CalcService {
 
@@ -34,7 +34,12 @@ public class CalcServiceImp implements CalcService {
     }
 
     @Override
-    public void addCalculatedInMemory(String calculated) {
-        CalculatorStorage.addOperation(calculated);
+    public void addCalculatedInMemory(String calculated, int userId) {
+        CalculatorRepository.addOperation(calculated, userId);
+    }
+
+    @Override
+    public void removeAllOperations(int userId) {
+        CalculatorRepository.removeAllOperations(userId);
     }
 }

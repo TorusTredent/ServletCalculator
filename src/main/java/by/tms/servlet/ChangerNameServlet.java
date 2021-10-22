@@ -10,18 +10,19 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet (value = "/changerName", name = "ChangerNameServlet")
+@WebServlet (value = "/changer_name", name = "ChangerNameServlet")
 public class ChangerNameServlet extends HttpServlet {
 
     private final ChangerImp changer = new ChangerImp();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String newName = req.getParameter("newName");
+        String newName = req.getParameter("name");
 
         User user = (User) req.getSession().getAttribute("user");
 
-        if (changeName(user, newName)) {
+        if (checkForNull(newName)) {
+            changeName(user.getId(), newName);
             resp.getWriter().println("Changes complete");
         } else {
             resp.getWriter().println("New name not entered");
@@ -29,12 +30,11 @@ public class ChangerNameServlet extends HttpServlet {
     }
 
 
+    private boolean checkForNull(String newName) {
+        return newName != null && !newName.isEmpty();
+    }
 
-    private boolean changeName(User user, String newName) {
-        if (newName == null || newName.isEmpty()) {
-            return false;
-        }
-        changer.changeName(user, newName);
-        return true;
+    private void changeName(int userId, String newName) {
+        changer.changeName(userId, newName);
     }
 }

@@ -5,5 +5,6 @@ public interface CalcService {
     Double sub(String num1, String num2);
     Double multiply(String num1, String num2);
     Double div(String num1, String num2);
-    void addCalculatedInMemory(String calculated);
+    void addCalculatedInMemory(String calculated, int userId);
+    void removeAllOperations(int userId);
 }

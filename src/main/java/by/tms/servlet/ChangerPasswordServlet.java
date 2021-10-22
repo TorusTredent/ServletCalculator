@@ -10,18 +10,19 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet (value = "/changerPassword", name = "ChangerPasswordServlet")
+@WebServlet (value = "/changer_password", name = "ChangerPasswordServlet")
 public class ChangerPasswordServlet extends HttpServlet {
 
     private final ChangerImp changer = new ChangerImp();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String newPassword = req.getParameter("newPassword");
+        String newPassword = req.getParameter("password");
 
         User user = (User) req.getSession().getAttribute("user");
 
-        if (changePassword(user, newPassword)) {
+        if (checkPasswordForNull(newPassword)) {
+            changePassword(user.getId(), newPassword);
             resp.getWriter().println("Changes complete");
         } else {
             resp.getWriter().println("New password not entered");
@@ -29,12 +30,13 @@ public class ChangerPasswordServlet extends HttpServlet {
         }
     }
 
-    private boolean changePassword (User user, String newPassword) {
-        if (newPassword == null || newPassword.isEmpty()) {
-            return false;
-        }
-        changer.changePassword(user, newPassword);
-        return true;
+
+    private boolean checkPasswordForNull(String password) {
+        return password != null && !password.isEmpty();
+
     }
 
+    private void changePassword (int userId, String newPassword) {
+        changer.changePassword(userId, newPassword);
+    }
 }

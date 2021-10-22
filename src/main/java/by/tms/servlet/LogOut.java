@@ -7,12 +7,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet(value = "/logOut", name = "LogOut")
+@WebServlet(value = "/log_out", name = "LogOut")
 public class LogOut extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        resp.getWriter().println("log out...");
+        resp.getWriter().println("Log out...");
         req.getSession().invalidate();
     }
 }

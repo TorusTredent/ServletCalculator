@@ -1,17 +1,17 @@
 package by.tms.service.imp;
 
 import by.tms.entity.User;
+import by.tms.repository.UserRepository;
 import by.tms.service.Changer;
-import by.tms.storage.UserStorage;
 
 public class ChangerImp implements Changer {
     @Override
-    public void changeName(User user, String newName) {
-        UserStorage.changeName(user, newName);
+    public void changeName(int userId, String newName) {
+        UserRepository.changeName(userId, newName);
     }
 
     @Override
-    public void changePassword(User user, String newPassword) {
-        UserStorage.changePassword(user, newPassword);
+    public void changePassword(int userId, String newPassword) {
+        UserRepository.changePassword(userId, newPassword);
     }
 }
