@@ -29,7 +29,7 @@ public class SingInServlet extends HttpServlet {
             if (checkData(username, password)) {
                 User user = getUser(username);
                 req.getSession().setAttribute("user", user);
-                resp.sendRedirect("/pages/home/home.jsp");
+                resp.sendRedirect("/pages/home.jsp");
                 return;
             } else {
                 req.setAttribute("message", "Username or password entered incorrectly ");

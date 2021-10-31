@@ -27,24 +27,32 @@ public class ShowCalculatorMemoryServlet extends HttpServlet {
         User user = (User) req.getSession().getAttribute("user");
         String hide = req.getParameter("hide");
         String show = req.getParameter("show");
+
         if (hide != null) {
             req.getSession().setAttribute("operationList", null);
         }
+
         if (show != null) {
             List<Operation> list = getOperationList(user.getId());
-            List<String> operList = new ArrayList<>();
-            for (Operation value : list) {
-                operList.add("Operation " + value.getOperation() + " = " + value.getResult());
-            }
-            Collections.reverse(operList);
-            if (operList.isEmpty()) {
+            if (list.isEmpty()) {
                 req.getSession().setAttribute("operationList", null);
             } else {
-                req.getSession().setAttribute("operationList", operList);
+                req.getSession().setAttribute("operationList", prepareToAttribute(list));
             }
         }
+
         getServletContext().getRequestDispatcher("/pages/home/calculator/show_calc_history.jsp").forward(req, resp);
     }
+
+    private List<String> prepareToAttribute(List<Operation> list) {
+        List<String> operationList = new ArrayList<>();
+        for (Operation value : list) {
+            operationList.add("Operation " + value.getOperation() + " = " + value.getResult());
+        }
+        Collections.reverse(operationList);
+        return operationList;
+    }
+
 
     private List<Operation> getOperationList(int userId) {
         ShowService show = new ShowService();
