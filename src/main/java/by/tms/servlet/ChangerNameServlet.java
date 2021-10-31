@@ -1,7 +1,7 @@
 package by.tms.servlet;
 
 import by.tms.entity.User;
-import by.tms.service.imp.ChangerImp;
+import by.tms.service.Changer;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -13,22 +13,27 @@ import java.io.IOException;
 @WebServlet (value = "/changer_name", name = "ChangerNameServlet")
 public class ChangerNameServlet extends HttpServlet {
 
-    private final ChangerImp changer = new ChangerImp();
+    private final Changer changer = new Changer();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        getServletContext().getRequestDispatcher("/pages/change_name.jsp").forward(req, resp);
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String newName = req.getParameter("name");
 
         User user = (User) req.getSession().getAttribute("user");
 
         if (checkForNull(newName)) {
             changeName(user.getId(), newName);
-            resp.getWriter().println("Changes complete");
+            req.setAttribute("message", "Changes complete ");
         } else {
-            resp.getWriter().println("New name not entered");
+            req.setAttribute("message", "New name not entered");
         }
+        getServletContext().getRequestDispatcher("/pages/change_name.jsp").forward(req, resp);
     }
-
 
     private boolean checkForNull(String newName) {
         return newName != null && !newName.isEmpty();

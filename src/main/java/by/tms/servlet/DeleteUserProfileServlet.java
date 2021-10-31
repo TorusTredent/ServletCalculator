@@ -1,7 +1,7 @@
 package by.tms.servlet;
 
 import by.tms.entity.User;
-import by.tms.service.imp.DeleteUserServiceImp;
+import by.tms.service.DeleteUserService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -13,7 +13,7 @@ import java.io.IOException;
 @WebServlet(value = "/delete_profile", name = "DeleteUserProfileServlet")
 public class DeleteUserProfileServlet extends HttpServlet {
 
-    private final DeleteUserServiceImp delete = new DeleteUserServiceImp();
+    private final DeleteUserService delete = new DeleteUserService();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -21,6 +21,7 @@ public class DeleteUserProfileServlet extends HttpServlet {
         deleteUser(user.getId());
         resp.getWriter().println("User delete");
         req.getSession().invalidate();
+        resp.sendRedirect("/pages/home.jsp");
     }
 
     private void deleteUser(int userId) {

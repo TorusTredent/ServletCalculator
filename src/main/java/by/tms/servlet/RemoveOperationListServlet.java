@@ -1,7 +1,7 @@
 package by.tms.servlet;
 
 import by.tms.entity.User;
-import by.tms.service.imp.CalcServiceImp;
+import by.tms.service.CalcService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -13,15 +13,15 @@ import java.io.IOException;
 @WebServlet(value = "/remove_history", name = "RemoveOperationListServlet")
 public class RemoveOperationListServlet extends HttpServlet {
 
-    private final CalcServiceImp calc = new CalcServiceImp();
+    private final CalcService calc = new CalcService();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-         User user = (User) req.getSession().getAttribute("user");
-         removeAllOperations(user.getId());
-         resp.getWriter().println("Deletions of all operations completed");
+        User user = (User) req.getSession().getAttribute("user");
+        removeAllOperations(user.getId());
+        req.getSession().setAttribute("operationList", null);
+        resp.sendRedirect("/pages/calculator.jsp");
     }
-
 
     private void removeAllOperations(int userId) {
         calc.removeAllOperations(userId);

@@ -1,5 +1,10 @@
 package by.tms.service;
 
-public interface DeleteUserService {
-    void deleteUser(int userId);
+import by.tms.repository.UserRepository;
+
+public class DeleteUserService {
+
+    public void deleteUser(int userId) {
+        UserRepository.deleteUser(userId);
+    }
 }

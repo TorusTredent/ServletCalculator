@@ -1,7 +1,7 @@
 package by.tms.servlet;
 
 import by.tms.entity.User;
-import by.tms.service.imp.SingInServiceImp;
+import by.tms.service.SingInServiceImp;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -17,17 +17,34 @@ public class SingInServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        getServletContext().getRequestDispatcher("/pages/singIn.jsp").forward(req, resp);
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String username = req.getParameter("username");
         String password = req.getParameter("password");
 
-        if (checkData(username, password)) {
-            User user = getUser(username);
-            req.getSession().setAttribute("user", user);
-            resp.getWriter().println("You are logged in account");
+        if (!checkInputValuesForNull(username, password)) {
+            if (checkData(username, password)) {
+                User user = getUser(username);
+                req.getSession().setAttribute("user", user);
+                resp.sendRedirect("/pages/home.jsp");
+                return;
+            } else {
+                req.setAttribute("message", "Username or password entered incorrectly ");
+            }
         } else {
-            resp.getWriter().println("Username or password entered incorrectly ");
+            req.setAttribute("message", "Username or password not entered");
         }
+        getServletContext().getRequestDispatcher("/pages/singIn.jsp").forward(req, resp);
+    }
 
+    private boolean checkInputValuesForNull(String username, String password) {
+        if (username == null || password == null) {
+            return true;
+        }
+        return username.isEmpty() || password.isEmpty();
     }
 
     private boolean checkData(String username, String password) {

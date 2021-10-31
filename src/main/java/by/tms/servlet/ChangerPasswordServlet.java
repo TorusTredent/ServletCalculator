@@ -1,7 +1,7 @@
 package by.tms.servlet;
 
 import by.tms.entity.User;
-import by.tms.service.imp.ChangerImp;
+import by.tms.service.Changer;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -13,23 +13,27 @@ import java.io.IOException;
 @WebServlet (value = "/changer_password", name = "ChangerPasswordServlet")
 public class ChangerPasswordServlet extends HttpServlet {
 
-    private final ChangerImp changer = new ChangerImp();
+    private final Changer changer = new Changer();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        getServletContext().getRequestDispatcher("/pages/change_password.jsp").forward(req, resp);
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String newPassword = req.getParameter("password");
 
         User user = (User) req.getSession().getAttribute("user");
 
         if (checkPasswordForNull(newPassword)) {
             changePassword(user.getId(), newPassword);
-            resp.getWriter().println("Changes complete");
+            req.setAttribute("message", "Changes complete ");
         } else {
-            resp.getWriter().println("New password not entered");
-
+            req.setAttribute("message", "New password not entered");
         }
+        getServletContext().getRequestDispatcher("/pages/change_password.jsp").forward(req, resp);
     }
-
 
     private boolean checkPasswordForNull(String password) {
         return password != null && !password.isEmpty();
