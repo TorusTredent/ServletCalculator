@@ -17,7 +17,7 @@ public class SingInServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        getServletContext().getRequestDispatcher("/pages/singIn.jsp").forward(req, resp);
+        getServletContext().getRequestDispatcher("/pages/home/auth/singIn.jsp").forward(req, resp);
     }
 
     @Override
@@ -29,7 +29,7 @@ public class SingInServlet extends HttpServlet {
             if (checkData(username, password)) {
                 User user = getUser(username);
                 req.getSession().setAttribute("user", user);
-                resp.sendRedirect("/pages/home.jsp");
+                resp.sendRedirect("/pages/home/home.jsp");
                 return;
             } else {
                 req.setAttribute("message", "Username or password entered incorrectly ");
@@ -37,7 +37,7 @@ public class SingInServlet extends HttpServlet {
         } else {
             req.setAttribute("message", "Username or password not entered");
         }
-        getServletContext().getRequestDispatcher("/pages/singIn.jsp").forward(req, resp);
+        getServletContext().getRequestDispatcher("/pages/home/auth/singIn.jsp").forward(req, resp);
     }
 
     private boolean checkInputValuesForNull(String username, String password) {

@@ -18,11 +18,11 @@
     <a href="${pageContext.request.contextPath}/changer_name"> Change name |</a>
     <a href="${pageContext.request.contextPath}/changer_password"> Change password |</a>
     <a href="${pageContext.request.contextPath}/delete_profile"> Delete account |</a>
-    <a href="${pageContext.request.contextPath}/pages/home.jsp"> back </a>
+    <a href="${pageContext.request.contextPath}/pages/home/home.jsp"> Back </a>
 </c:if>
 
 <c:if test="${sessionScope.user == null}">
-    <a href="${pageContext.request.contextPath}/pages/home.jsp"> Back to sing in</a>
+    <a href="${pageContext.request.contextPath}/pages/home/home.jsp"> Back to sing in</a>
 </c:if>
 </body>
 </html>

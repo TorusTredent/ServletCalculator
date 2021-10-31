@@ -27,11 +27,11 @@
             </c:forEach>
         </c:if>
     </form>
-    <a href="${pageContext.request.contextPath}/pages/profile.jsp"> Back </a>
+    <a href="${pageContext.request.contextPath}/pages/home/profile/profile.jsp"> Back </a>
 </c:if>
 
 <c:if test="${sessionScope.user == null}">
-    <a href="${pageContext.request.contextPath}/pages/home.jsp"> Back to sing in</a>
+    <a href="${pageContext.request.contextPath}/pages/home/home.jsp"> Back to sing in</a>
 </c:if>
 </body>
 </html>

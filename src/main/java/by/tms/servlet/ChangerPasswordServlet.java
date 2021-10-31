@@ -17,7 +17,7 @@ public class ChangerPasswordServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        getServletContext().getRequestDispatcher("/pages/change_password.jsp").forward(req, resp);
+        getServletContext().getRequestDispatcher("/pages/home/profile/change_password.jsp").forward(req, resp);
     }
 
     @Override
@@ -28,11 +28,12 @@ public class ChangerPasswordServlet extends HttpServlet {
 
         if (checkPasswordForNull(newPassword)) {
             changePassword(user.getId(), newPassword);
+            user.setPassword(newPassword);
             req.setAttribute("message", "Changes complete ");
         } else {
             req.setAttribute("message", "New password not entered");
         }
-        getServletContext().getRequestDispatcher("/pages/change_password.jsp").forward(req, resp);
+        getServletContext().getRequestDispatcher("/pages/home/profile/change_password.jsp").forward(req, resp);
     }
 
     private boolean checkPasswordForNull(String password) {

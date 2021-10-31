@@ -20,7 +20,7 @@ public class RemoveOperationListServlet extends HttpServlet {
         User user = (User) req.getSession().getAttribute("user");
         removeAllOperations(user.getId());
         req.getSession().setAttribute("operationList", null);
-        resp.sendRedirect("/pages/calculator.jsp");
+        resp.sendRedirect("/pages/home/calculator/calculator.jsp");
     }
 
     private void removeAllOperations(int userId) {

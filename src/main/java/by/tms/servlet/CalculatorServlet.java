@@ -22,7 +22,7 @@ public class CalculatorServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
-        getServletContext().getRequestDispatcher("/pages/calculator.jsp").forward(req, resp);
+        getServletContext().getRequestDispatcher("/pages/home/calculator/calculator.jsp").forward(req, resp);
     }
 
     @Override
@@ -37,24 +37,20 @@ public class CalculatorServlet extends HttpServlet {
             if (checkValues(num1, num2, operation)) {
                 User user = (User) req.getSession().getAttribute("user");
 
-                Operation oper = new Operation(num1, num2, operation, user.getId());
+                Operation oper = new Operation(num1, num2, operation, String.valueOf(getValue(num1, num2, operation)), user.getId());
                 oper.setResult(String.valueOf(getValue(num1, num2, operation)));
+                addCalculatedInMemory(oper);
 
                 String calculated = "Operation " + oper.getOperation() + " = " + oper.getResult();
-                addCalculatedInMemory(oper);
                 req.setAttribute("message", calculated);
+
                 List<Operation> list = getOperationList(user.getId());
-                List<String> operList = new ArrayList<>();
-                for (Operation value : list) {
-                    operList.add("Operation " + value.getOperation() + " = " + value.getResult());
-                }
-                Collections.reverse(operList);
-                req.getSession().setAttribute("operationList", operList);
+                req.getSession().setAttribute("operationList", prepareToAttribute(list));
             } else {
                 req.setAttribute("message", "Incorrect data entered");
             }
         }
-        getServletContext().getRequestDispatcher("/pages/calculator.jsp").forward(req, resp);
+        getServletContext().getRequestDispatcher("/pages/home/calculator/calculator.jsp").forward(req, resp);
     }
 
     private void addCalculatedInMemory(Operation operation) {
@@ -107,6 +103,16 @@ public class CalculatorServlet extends HttpServlet {
             }
         }
     }
+
+    private List<String> prepareToAttribute(List<Operation> list) {
+        List<String> operationList = new ArrayList<>();
+        for (Operation value : list) {
+            operationList.add("Operation " + value.getOperation() + " = " + value.getResult());
+        }
+        Collections.reverse(operationList);
+        return operationList;
+    }
+
 
     private List<Operation> getOperationList(int userId) {
         ShowService show = new ShowService();

@@ -25,12 +25,12 @@
         <button>Submit</button>
     </form>
     <p>${requestScope.message}</p>
-    <a href="${pageContext.request.contextPath}/pages/show_calc_history.jsp"> Show history</a>
-    <a href="${pageContext.request.contextPath}/pages/home.jsp"> Back </a>
+    <a href="/pages/home/calculator/show_calc_history.jsp"> Show history</a>
+    <a href="/pages/home/home.jsp"> Back </a>
 </c:if>
 
 <c:if test="${sessionScope.user == null}">
-    <a href="${pageContext.request.contextPath}/pages/home.jsp"> Back to sing in</a>
+    <a href="${pageContext.request.contextPath}/pages/home/home.jsp"> Back to sing in</a>
 </c:if>
 </body>
 </html>

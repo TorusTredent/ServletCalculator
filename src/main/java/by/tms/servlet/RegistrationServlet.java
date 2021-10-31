@@ -17,7 +17,7 @@ public class RegistrationServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        getServletContext().getRequestDispatcher("/pages/registration.jsp").forward(req, resp);
+        getServletContext().getRequestDispatcher("/pages/home/auth/registration.jsp").forward(req, resp);
     }
 
     @Override
@@ -29,7 +29,7 @@ public class RegistrationServlet extends HttpServlet {
         if (checkInputValuesForNull(name, username, password)) {
             if (checkNewUsername(username)) {
                 createUser(name, username, password);
-                resp.sendRedirect("/pages/home.jsp");
+                resp.sendRedirect("/pages/home/home.jsp");
                 return;
             } else {
                 req.setAttribute("message", "Username is already used");
@@ -37,7 +37,7 @@ public class RegistrationServlet extends HttpServlet {
         } else {
             req.setAttribute("message","Name, username or password not entered");
         }
-        getServletContext().getRequestDispatcher("/pages/registration.jsp").forward(req, resp);
+        getServletContext().getRequestDispatcher("/pages/home/auth/registration.jsp").forward(req, resp);
     }
 
     private boolean checkInputValuesForNull(String name, String username, String password) {

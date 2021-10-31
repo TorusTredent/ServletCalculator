@@ -17,7 +17,7 @@ public class ChangerNameServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        getServletContext().getRequestDispatcher("/pages/change_name.jsp").forward(req, resp);
+        getServletContext().getRequestDispatcher("/pages/home/profile/change_name.jsp").forward(req, resp);
     }
 
     @Override
@@ -28,11 +28,12 @@ public class ChangerNameServlet extends HttpServlet {
 
         if (checkForNull(newName)) {
             changeName(user.getId(), newName);
+            user.setName(newName);
             req.setAttribute("message", "Changes complete ");
         } else {
             req.setAttribute("message", "New name not entered");
         }
-        getServletContext().getRequestDispatcher("/pages/change_name.jsp").forward(req, resp);
+        getServletContext().getRequestDispatcher("/pages/home/profile/change_name.jsp").forward(req, resp);
     }
 
     private boolean checkForNull(String newName) {

@@ -16,7 +16,7 @@ public class ShowUserProfile extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        getServletContext().getRequestDispatcher("/pages/show_user_profile.jsp").forward(req, resp);
+        getServletContext().getRequestDispatcher("/pages/home/profile/show_user_profile.jsp").forward(req, resp);
     }
 
     @Override
@@ -28,6 +28,6 @@ public class ShowUserProfile extends HttpServlet {
         list.add("Username: " + user.getUsername());
         list.add("Password: " + user.getPassword());
         req.getSession().setAttribute("userProfile", list);
-        getServletContext().getRequestDispatcher("/pages/show_user_profile.jsp").forward(req, resp);
+        getServletContext().getRequestDispatcher("/pages/home/profile/show_user_profile.jsp").forward(req, resp);
     }
 }

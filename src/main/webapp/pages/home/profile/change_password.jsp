@@ -9,20 +9,22 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Change name</title>
+    <title>Change password</title>
 </head>
 <body>
 <c:if test="${sessionScope.user != null}">
-    <form action="${pageContext.request.contextPath}/changer_name" method="post">
-        <input type="text" name="name" placeholder="Name">
+    <form action="${pageContext.request.contextPath}/changer_password" method="post">
+        <label>
+            <input type="text" name="password" placeholder="Password">
+        </label>
         <button>Submit</button>
     </form>
-    <a href="${pageContext.request.contextPath}/pages/profile.jsp"> Back </a>
+    <a href="${pageContext.request.contextPath}/pages/home/profile/profile.jsp"> Back </a>
     <p>${requestScope.message}</p>
 </c:if>
 
 <c:if test="${sessionScope.user == null}">
-    <a href="${pageContext.request.contextPath}/pages/home.jsp"> Back to sing in</a>
+    <a href="${pageContext.request.contextPath}/pages/home/home.jsp"> Back to sing in</a>
 </c:if>
 
 </body>

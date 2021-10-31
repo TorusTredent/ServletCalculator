@@ -21,7 +21,7 @@ public class DeleteUserProfileServlet extends HttpServlet {
         deleteUser(user.getId());
         resp.getWriter().println("User delete");
         req.getSession().invalidate();
-        resp.sendRedirect("/pages/home.jsp");
+        resp.sendRedirect("/pages/home/home.jsp");
     }
 
     private void deleteUser(int userId) {

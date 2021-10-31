@@ -13,6 +13,6 @@ public class LogOut extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.getSession().invalidate();
-        resp.sendRedirect("/pages/home.jsp");
+        resp.sendRedirect("/pages/home/home.jsp");
     }
 }

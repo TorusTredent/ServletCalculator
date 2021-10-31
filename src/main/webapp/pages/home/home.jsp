@@ -19,7 +19,7 @@
     </c:if>
 
     <c:if test="${sessionScope.user != null}">
-        <a href="${pageContext.request.contextPath}/pages/profile.jsp"> Profile |</a>
+        <a href="/pages/home/profile/profile.jsp"> Profile |</a>
         <a href="${pageContext.request.contextPath}/calc"> Calculator |</a>
         <a href="${pageContext.request.contextPath}/log_out"> Log out |</a>
     </c:if>

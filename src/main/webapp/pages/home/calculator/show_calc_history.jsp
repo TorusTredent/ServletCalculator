@@ -7,7 +7,7 @@
 </head>
 <body>
 <c:if test="${sessionScope.user != null}">
-    <a href="${pageContext.request.contextPath}/pages/calculator.jsp"> Back</a>
+    <a href="${pageContext.request.contextPath}/pages/home/calculator/calculator.jsp"> Back</a>
     <a href="${pageContext.request.contextPath}/remove_history"> Delete history</a>
     <form action="/show_history" method="post">
         <input type="submit" value="Show" name="show"/>
@@ -24,7 +24,7 @@
 </c:if>
 
 <c:if test="${sessionScope.user == null}">
-    <a href="${pageContext.request.contextPath}/pages/home.jsp"> Back to sing in</a>
+    <a href="/pages/home/home.jsp"> Back to sing in</a>
 </c:if>
 </body>
 </html>
