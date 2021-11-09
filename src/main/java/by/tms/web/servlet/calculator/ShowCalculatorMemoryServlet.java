@@ -1,8 +1,8 @@
-package by.tms.servlet;
+package by.tms.web.servlet.calculator;
 
 import by.tms.entity.Operation;
 import by.tms.entity.User;
-import by.tms.service.ShowService;
+import by.tms.service.calc.ShowService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
 
 @WebServlet(value = "/show_history", name = "ShowCalculatorMemoryServlet")
@@ -33,14 +34,13 @@ public class ShowCalculatorMemoryServlet extends HttpServlet {
         }
 
         if (show != null) {
-            List<Operation> list = getOperationList(user.getId());
+            LinkedList<Operation> list = getOperationList(user.getId());
             if (list.isEmpty()) {
                 req.getSession().setAttribute("operationList", null);
             } else {
                 req.getSession().setAttribute("operationList", prepareToAttribute(list));
             }
         }
-
         getServletContext().getRequestDispatcher("/pages/home/calculator/show_calc_history.jsp").forward(req, resp);
     }
 
@@ -54,7 +54,7 @@ public class ShowCalculatorMemoryServlet extends HttpServlet {
     }
 
 
-    private List<Operation> getOperationList(int userId) {
+    private LinkedList<Operation> getOperationList(int userId) {
         ShowService show = new ShowService();
         return show.showOperations(userId);
     }

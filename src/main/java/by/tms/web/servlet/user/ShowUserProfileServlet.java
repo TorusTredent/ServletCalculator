@@ -1,4 +1,4 @@
-package by.tms.servlet;
+package by.tms.web.servlet.user;
 
 import by.tms.entity.User;
 
@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @WebServlet(value = "/profile", name = "ShowUserProfile")
-public class ShowUserProfile extends HttpServlet {
+public class ShowUserProfileServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

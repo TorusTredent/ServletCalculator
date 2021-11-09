@@ -5,6 +5,7 @@ public class User {
     private String name;
     private String username;
     private String password;
+    private String status;
 
     public User() {
     }
@@ -20,6 +21,29 @@ public class User {
         this.name = name;
         this.username = username;
         this.password = password;
+    }
+
+    public User(String name, String username, String password, String status) {
+        this.name = name;
+        this.username = username;
+        this.password = password;
+        this.status = status;
+    }
+
+    public User(int id, String name, String username, String password, String status) {
+        this.id = id;
+        this.name = name;
+        this.username = username;
+        this.password = password;
+        this.status = status;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     public int getId() {

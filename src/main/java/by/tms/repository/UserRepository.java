@@ -5,18 +5,16 @@ import by.tms.repository.configs.Configs;
 import by.tms.repository.configs.Const;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
 
-public class UserRepository extends Configs {
+public class UserRepository extends Configs{
 
-    public static void addUser(User user) {
+    public void addUser(User user) {
         try {
-            Class.forName("com.mysql.cj.jdbc.Driver").getDeclaredConstructor().newInstance();
-            try (Connection connection = DriverManager.getConnection(url, login, password)) {
-
-                String query = "INSERT INTO " + Const.USER_TABLE + "(" + Const.USER_FIRSTNAME + ", " +
-                        Const.USER_USERNAME + ", " + Const.USER_PASSWORD + ") " + "VALUES (?, ?, ?)";
-
-                try (PreparedStatement prep = connection.prepareStatement(query)) {
+            try (Connection connection = connect()) {
+                try (PreparedStatement prep = connection.prepareStatement(Const.addUserQuery)) {
                     prep.setString(1, user.getName());
                     prep.setString(2, user.getUsername());
                     prep.setString(3, user.getPassword());
@@ -30,14 +28,10 @@ public class UserRepository extends Configs {
         }
     }
 
-    public static boolean checkUsername(String username) {
+    public boolean checkUsername(String username) {
         try {
-            Class.forName("com.mysql.cj.jdbc.Driver").getDeclaredConstructor().newInstance();
-            try (Connection connection = DriverManager.getConnection(url, login, password)) {
-
-                String query = "SELECT * FROM " + Const.USER_TABLE + " WHERE " + Const.USER_USERNAME + " = ?";
-
-                try (PreparedStatement prep = connection.prepareStatement(query)) {
+            try (Connection connection = connect()) {
+                try (PreparedStatement prep = connection.prepareStatement(Const.checkUsernameQuery)) {
                     prep.setString(1, username);
                     ResultSet rs = prep.executeQuery();
                     return rs.next();
@@ -51,15 +45,10 @@ public class UserRepository extends Configs {
         return false;
     }
 
-    public static boolean checkPassword(String inputPassword, String username) {
+    public boolean checkPassword(String inputPassword, String username) {
         try {
-            Class.forName("com.mysql.cj.jdbc.Driver").getDeclaredConstructor().newInstance();
-            try (Connection connection = DriverManager.getConnection(url, login, password)) {
-
-                String query = "SELECT * FROM " + Const.USER_TABLE + " WHERE " + Const.USER_PASSWORD + " = ? AND " +
-                        Const.USER_USERNAME + " = ?";
-
-                try (PreparedStatement prep = connection.prepareStatement(query)) {
+            try (Connection connection = connect()) {
+                try (PreparedStatement prep = connection.prepareStatement(Const.checkPasswordQuery)) {
                     prep.setString(1, inputPassword);
                     prep.setString(2, username);
                     ResultSet rs = prep.executeQuery();
@@ -74,20 +63,13 @@ public class UserRepository extends Configs {
         return false;
     }
 
-    public static User getUser(String username) {
+    public User getUser(String username) {
         try {
-            Class.forName("com.mysql.cj.jdbc.Driver").getDeclaredConstructor().newInstance();
-            try (Connection connection = DriverManager.getConnection(url, login, password)) {
-
-                String query = "SELECT * FROM " + Const.USER_TABLE + " WHERE " + Const.USER_USERNAME + " = ?";
-
-                try (PreparedStatement prep = connection.prepareStatement(query)) {
+            try (Connection connection = connect()) {
+                try (PreparedStatement prep = connection.prepareStatement(Const.getUserQuery)) {
                     prep.setString(1, username);
                     ResultSet rs = prep.executeQuery();
-                    if (rs.next()) {
-                        return new User(rs.getInt(1),rs.getString(2), rs.getString(3),
-                                rs.getString(4));
-                    }
+                    return getUser(rs);
                 }
             } catch (SQLException se) {
                 se.printStackTrace();
@@ -98,15 +80,10 @@ public class UserRepository extends Configs {
         return null;
     }
 
-    public static void changeName(int userId, String name) {
+    public void changeName(int userId, String name) {
         try {
-            Class.forName("com.mysql.cj.jdbc.Driver").getDeclaredConstructor().newInstance();
-            try (Connection connection = DriverManager.getConnection(url, login, password)) {
-
-                String query = "UPDATE " + Const.USER_TABLE + " SET " + Const.USER_FIRSTNAME +
-                        " = ? WHERE " + Const.USER_ID + " = ?";
-
-                try (PreparedStatement prep = connection.prepareStatement(query)) {
+            try (Connection connection = connect()) {
+                try (PreparedStatement prep = connection.prepareStatement(Const.changeNameQuery)) {
                     prep.setString(1, name);
                     prep.setLong(2, userId);
                     prep.execute();
@@ -119,15 +96,10 @@ public class UserRepository extends Configs {
         }
     }
 
-    public static void changePassword(int userId, String newPassword) {
+    public void changePassword(int userId, String newPassword) {
         try {
-            Class.forName("com.mysql.cj.jdbc.Driver").getDeclaredConstructor().newInstance();
-            try (Connection connection = DriverManager.getConnection(url, login, password)) {
-
-                String query = "UPDATE " + Const.USER_TABLE + " SET " + Const.USER_PASSWORD +
-                        " = ? WHERE " + Const.USER_ID + " = ?";
-
-                try (PreparedStatement prep = connection.prepareStatement(query)) {
+            try (Connection connection = connect()) {
+                try (PreparedStatement prep = connection.prepareStatement(Const.changePasswordQuery)) {
                     prep.setString(1, newPassword);
                     prep.setLong(2, userId);
                     prep.execute();
@@ -140,14 +112,10 @@ public class UserRepository extends Configs {
         }
     }
 
-    public static void deleteUser(int userId) {
+    public void deleteUser(int userId) {
         try {
-            Class.forName("com.mysql.cj.jdbc.Driver").getDeclaredConstructor().newInstance();
-            try (Connection connection = DriverManager.getConnection(url, login, password)) {
-
-                String query = "DELETE FROM " + Const.USER_TABLE + " WHERE " + Const.USER_ID + " = ?";
-
-                try (PreparedStatement prep = connection.prepareStatement(query)) {
+            try (Connection connection = connect()) {
+                try (PreparedStatement prep = connection.prepareStatement(Const.deleteUserQuery)) {
                     prep.setInt(1, userId);
                     prep.execute();
                 }
@@ -157,5 +125,38 @@ public class UserRepository extends Configs {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public List<User> getUserList() {
+        try {
+            try (Connection connection = connect()) {
+                try (PreparedStatement prep = connection.prepareStatement(Const.getUserListQuery)) {
+                    ResultSet rs = prep.executeQuery();
+                    return getListUser(rs);
+                }
+            } catch (SQLException se) {
+                se.printStackTrace();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    private List<User> getListUser(ResultSet rs) throws SQLException {
+        List<User> list = new ArrayList<>();
+        while(rs.next()) {
+            list.add(new User(rs.getInt(1), rs.getString(2), rs.getString(3),
+                    rs.getString(4), rs.getString(5)));
+        }
+        return list;
+    }
+
+    private User getUser(ResultSet rs) throws SQLException {
+        if (rs.next()) {
+            return new User(rs.getInt(1),rs.getString(2), rs.getString(3),
+                    rs.getString(4));
+        }
+        return null;
     }
 }

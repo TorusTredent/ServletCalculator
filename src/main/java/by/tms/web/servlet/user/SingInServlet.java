@@ -1,7 +1,7 @@
-package by.tms.servlet;
+package by.tms.web.servlet.user;
 
 import by.tms.entity.User;
-import by.tms.service.SingInServiceImp;
+import by.tms.service.user.UserService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -13,7 +13,7 @@ import java.io.IOException;
 @WebServlet(value = "/authorization", name = "AuthorizationServlet")
 public class SingInServlet extends HttpServlet {
 
-    private final SingInServiceImp auth = new SingInServiceImp();
+    private final UserService auth = new UserService();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -29,7 +29,7 @@ public class SingInServlet extends HttpServlet {
             if (checkData(username, password)) {
                 User user = getUser(username);
                 req.getSession().setAttribute("user", user);
-                resp.sendRedirect("/pages/home.jsp");
+                resp.sendRedirect("/pages/home/home.jsp");
                 return;
             } else {
                 req.setAttribute("message", "Username or password entered incorrectly ");

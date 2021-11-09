@@ -1,7 +1,7 @@
-package by.tms.servlet;
+package by.tms.web.servlet.calculator;
 
 import by.tms.entity.User;
-import by.tms.service.CalcService;
+import by.tms.service.calc.CalcService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;

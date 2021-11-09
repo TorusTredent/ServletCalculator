@@ -14,12 +14,15 @@
 <body>
 <c:if test="${sessionScope.user != null}">
     <form action="/calc" method="post">
-        <input type="text" name="num1" placeholder="Number 1"><br>
+        <input type="text" name="num1" placeholder="Number 1">
 
-        <input type="radio" name="radio1" value="sum" checked> summary (+)<br>
-        <input type="radio" name="radio1" value="sub"> subtraction (-)<br>
-        <input type="radio" name="radio1" value="div"> division (/) <br>
-        <input type="radio" name="radio1" value="multiply"> multiplication (*) <br>
+        <select name="operation">
+            <option disabled selected>operation</option>
+            <option value="sum">+</option>
+            <option value="sub">-</option>
+            <option value="div">/</option>
+            <option value="multiply">*</option>
+        </select>
 
         <input type="text" name="num2" placeholder="Number 2">
         <button>Submit</button>
@@ -30,7 +33,7 @@
 </c:if>
 
 <c:if test="${sessionScope.user == null}">
-    <a href="${pageContext.request.contextPath}/pages/home/home.jsp"> Back to sing in</a>
+    <a href="/pages/home/home.jsp"> Back to sing in</a>
 </c:if>
 </body>
 </html>

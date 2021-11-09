@@ -1,9 +1,11 @@
-package by.tms.service;
+package by.tms.service.calc;
 
 import by.tms.entity.Operation;
 import by.tms.repository.CalculatorRepository;
 
 public class CalcService{
+    private final CalculatorRepository calcRepository = new CalculatorRepository();
+
     public Double sum(String num1, String num2) {
         double numb1 = Double.parseDouble(num1);
         double numb2 = Double.parseDouble(num2);
@@ -28,10 +30,10 @@ public class CalcService{
     }
 
     public void addCalculatedInMemory(Operation operation) {
-        CalculatorRepository.addOperation(operation);
+        calcRepository.addOperation(operation);
     }
 
     public void removeAllOperations(int userId) {
-        CalculatorRepository.removeAllOperations(userId);
+        calcRepository.removeAllOperations(userId);
     }
 }

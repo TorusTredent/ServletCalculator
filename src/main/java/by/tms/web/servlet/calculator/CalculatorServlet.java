@@ -1,9 +1,9 @@
-package by.tms.servlet;
+package by.tms.web.servlet.calculator;
 
 import by.tms.entity.Operation;
 import by.tms.entity.User;
-import by.tms.service.CalcService;
-import by.tms.service.ShowService;
+import by.tms.service.calc.CalcService;
+import by.tms.service.calc.ShowService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -29,7 +29,7 @@ public class CalculatorServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String num1 = req.getParameter("num1");
         String num2 = req.getParameter("num2");
-        String operation = req.getParameter("radio1");
+        String operation = req.getParameter("operation");
 
         if (!checkInputValueForNull(num1, num2, operation)) {
             req.setAttribute("message", "Number 1, number2 or operation not entered");

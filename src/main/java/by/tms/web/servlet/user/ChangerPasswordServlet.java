@@ -1,7 +1,7 @@
-package by.tms.servlet;
+package by.tms.web.servlet.user;
 
 import by.tms.entity.User;
-import by.tms.service.Changer;
+import by.tms.service.user.ChangerService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -13,7 +13,7 @@ import java.io.IOException;
 @WebServlet (value = "/changer_password", name = "ChangerPasswordServlet")
 public class ChangerPasswordServlet extends HttpServlet {
 
-    private final Changer changer = new Changer();
+    private final ChangerService changer = new ChangerService();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

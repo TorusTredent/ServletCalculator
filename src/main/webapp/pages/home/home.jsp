@@ -18,8 +18,15 @@
         <a href="${pageContext.request.contextPath}/authorization"> Authorization</a>
     </c:if>
 
-    <c:if test="${sessionScope.user != null}">
-        <a href="/pages/home/profile/profile.jsp"> Profile |</a>
+    <c:if test="${sessionScope.userStatus == user}">
+        <a href="${pageContext.request.contextPath}/pages/home/profile/profile.jsp"> Profile |</a>
+        <a href="${pageContext.request.contextPath}/calc"> Calculator |</a>
+        <a href="${pageContext.request.contextPath}/log_out"> Log out |</a>
+    </c:if>
+
+    <c:if test="${sessionScope.userStatus == admin}">
+        <a href="${pageContext.request.contextPath}/pages/home/users/usersList.jsp"> Users |</a>
+        <a href="${pageContext.request.contextPath}/pages/home/profile/profile.jsp"> Profile |</a>
         <a href="${pageContext.request.contextPath}/calc"> Calculator |</a>
         <a href="${pageContext.request.contextPath}/log_out"> Log out |</a>
     </c:if>

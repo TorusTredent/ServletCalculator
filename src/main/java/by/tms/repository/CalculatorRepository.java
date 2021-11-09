@@ -1,26 +1,18 @@
 package by.tms.repository;
 
 import by.tms.entity.Operation;
-import by.tms.entity.User;
 import by.tms.repository.configs.Configs;
 import by.tms.repository.configs.Const;
 
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.LinkedList;
 
 public class CalculatorRepository extends Configs {
 
-    public static void addOperation(Operation operation) {
+    public void addOperation(Operation operation) {
         try {
-            Class.forName("com.mysql.cj.jdbc.Driver").getDeclaredConstructor().newInstance();
-            try (Connection connection = DriverManager.getConnection(url, login, password)) {
-
-                String query = "INSERT INTO " + Const.OPERATIONS_TABLE + "(" + Const.OPERATIONS_NUM1 + ", " +
-                        Const.OPERATIONS_NUM2 + ", " + Const.OPERATIONS_OPERATION + ", " + Const.OPERATIONS_RESULT +
-                        ", " + Const.OPERATIONS_USER_ID + ") " + "VALUES (?, ?, ?, ?, ?)";
-
-                try (PreparedStatement prep = connection.prepareStatement(query)) {
+            try (Connection connection = connect()) {
+                try (PreparedStatement prep = connection.prepareStatement(Const.addOperationQuery)) {
                     prep.setString(1, operation.getNum1());
                     prep.setString(2, operation.getNum2());
                     prep.setString(3, operation.getOperation());
@@ -36,24 +28,13 @@ public class CalculatorRepository extends Configs {
         }
     }
 
-    public static List<Operation> getOperationList(int userId) {
-        List<Operation> operationList = new ArrayList<>();
+    public LinkedList<Operation> getOperationList(int userId) {
         try {
-            Class.forName("com.mysql.cj.jdbc.Driver").getDeclaredConstructor().newInstance();
-            try (Connection connection = DriverManager.getConnection(url, login, password)) {
-
-                String query = "SELECT " + Const.OPERATIONS_NUM1 + ", " + Const.OPERATIONS_NUM2 + ", "
-                        + Const.OPERATIONS_OPERATION + ", " + Const.OPERATIONS_RESULT +
-                        " FROM " + Const.OPERATIONS_TABLE + " WHERE " + Const.OPERATIONS_USER_ID + " = ?";
-
-                try (PreparedStatement prep = connection.prepareStatement(query)) {
+            try (Connection connection = connect()) {
+                try (PreparedStatement prep = connection.prepareStatement(Const.getOperationListQuery)) {
                     prep.setInt(1, userId);
                     ResultSet rs = prep.executeQuery();
-                    while (rs.next()) {
-                        operationList.add(new Operation(rs.getString(1), rs.getString(2),
-                                rs.getString(3), rs.getString(4)));
-                    }
-                    return operationList;
+                    return getList(rs);
                 }
             } catch (SQLException se) {
                 se.printStackTrace();
@@ -64,15 +45,10 @@ public class CalculatorRepository extends Configs {
         return null;
     }
 
-    public static void removeAllOperations(int userId) {
+    public void removeAllOperations(int userId) {
         try {
-            Class.forName("com.mysql.cj.jdbc.Driver").getDeclaredConstructor().newInstance();
-            try (Connection connection = DriverManager.getConnection(url, login, password)) {
-
-                String query = "DELETE FROM " + Const.OPERATIONS_TABLE +
-                        " WHERE " + Const.OPERATIONS_USER_ID + " = ?";
-
-                try (PreparedStatement prep = connection.prepareStatement(query)) {
+            try (Connection connection = connect()) {
+                try (PreparedStatement prep = connection.prepareStatement(Const.removeAllOperationsQuery)) {
                     prep.setInt(1, userId);
                     prep.execute();
                 }
@@ -83,4 +59,15 @@ public class CalculatorRepository extends Configs {
             e.printStackTrace();
         }
     }
+
+
+    private LinkedList<Operation> getList(ResultSet rs) throws SQLException {
+        LinkedList<Operation> operationList = new LinkedList<>();
+        while (rs.next()) {
+            operationList.addLast(new Operation(rs.getString(1), rs.getString(2),
+                    rs.getString(3), rs.getString(4)));
+        }
+        return operationList;
+    }
+
 }
