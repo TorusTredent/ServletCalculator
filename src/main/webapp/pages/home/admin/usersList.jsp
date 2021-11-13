@@ -13,36 +13,37 @@
     <title>Users</title>
 </head>
 <body>
-<c:if test="${sessionScope.userStatus == admin}">
-    <form action="/profile" method="post">
-        <p>Таблица пользователей</p>
-        <a href="/pages/home/home.jsp"> Back </a>
-        <c:if test="${sessionScope.userList != null}">
-            <ol>
-                <c:forEach begin="0" end="${fn:length(userList) - 1}" var="index">
-                    <br>
-                    <tr>
-                        <td><c:out value="${userList[index]}"/></td>
-                        <td>
-                            <form action="removeBookFromCart" method="post">
-                                <input type="submit" value="Remove"/>
-                                <input type="hidden" name="remove" value="${cartItem.bookId}"/>
-                            </form>
-                        </td>
-                        <input type="button" value="history" name="h${index}">
-                        <input type="button" value="personal" name="p${index}">
-                        <input type="button" value="make admin" name="a${index}">
-                    </tr>
-                </c:forEach>
-            </ol>
-        </c:if>
-
-        <c:if test="${sessionScope.userList == null}">
-            <button>Show</button>
-        </c:if>
-    </form>
+<c:if test="${sessionScope.user.status eq 'admin'}">
+    <p>Таблица пользователей
+        <a href="/pages/home/home.jsp">Back </a>
+    </p>
+    <c:if test="${sessionScope.userList != null}">
+        <ol>
+            <c:forEach begin="0" end="${fn:length(userList) - 1}" var="index">
+                <li>
+                    <form action="/userList" method="post">
+                        <p>
+                            <label>
+                                <input type="text" name="userNumber" hidden value="${index}">
+                            </label>
+                            id - ${sessionScope.userList.get(index).id};
+                            username - ${sessionScope.userList.get(index).username};
+                            password - ${sessionScope.userList.get(index).password};
+                            name - ${sessionScope.userList.get(index).name};
+                            status - ${sessionScope.userList.get(index).status};
+                            <c:if test="${sessionScope.user.id != sessionScope.userList.get(index).id}">
+                                <button type="submit" name="operation" value="history">History</button>
+                                <button type="submit" name="operation" value="addAdmin">Add admin</button>
+                                <button type="submit" name="operation" value="removeAdmin">Remove admin</button>
+                                <button type="submit" name="operation" value="deleteUser">delete</button>
+                            </c:if>
+                        </p>
+                    </form>
+                </li>
+            </c:forEach>
+        </ol>
+    </c:if>
 </c:if>
-
 <p>${requestScope.message}</p>
 
 </body>

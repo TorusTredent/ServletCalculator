@@ -1,18 +1,19 @@
 package by.tms.repository;
 
 import by.tms.entity.Operation;
-import by.tms.repository.configs.Configs;
 import by.tms.repository.configs.Const;
 
 import java.sql.*;
 import java.util.LinkedList;
 
-public class CalculatorRepository extends Configs {
+import static by.tms.repository.configs.Configs.connect;
+
+public class CalculatorRepository extends Const {
 
     public void addOperation(Operation operation) {
         try {
             try (Connection connection = connect()) {
-                try (PreparedStatement prep = connection.prepareStatement(Const.addOperationQuery)) {
+                try (PreparedStatement prep = connection.prepareStatement(addOperationQuery)) {
                     prep.setString(1, operation.getNum1());
                     prep.setString(2, operation.getNum2());
                     prep.setString(3, operation.getOperation());
@@ -31,7 +32,7 @@ public class CalculatorRepository extends Configs {
     public LinkedList<Operation> getOperationList(int userId) {
         try {
             try (Connection connection = connect()) {
-                try (PreparedStatement prep = connection.prepareStatement(Const.getOperationListQuery)) {
+                try (PreparedStatement prep = connection.prepareStatement(getOperationListQuery)) {
                     prep.setInt(1, userId);
                     ResultSet rs = prep.executeQuery();
                     return getList(rs);
@@ -48,7 +49,7 @@ public class CalculatorRepository extends Configs {
     public void removeAllOperations(int userId) {
         try {
             try (Connection connection = connect()) {
-                try (PreparedStatement prep = connection.prepareStatement(Const.removeAllOperationsQuery)) {
+                try (PreparedStatement prep = connection.prepareStatement(removeAllOperationsQuery)) {
                     prep.setInt(1, userId);
                     prep.execute();
                 }

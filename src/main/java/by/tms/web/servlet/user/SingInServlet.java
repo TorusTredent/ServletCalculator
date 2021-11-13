@@ -1,6 +1,7 @@
 package by.tms.web.servlet.user;
 
 import by.tms.entity.User;
+import by.tms.service.user.AdminService;
 import by.tms.service.user.UserService;
 
 import javax.servlet.ServletException;
@@ -14,6 +15,7 @@ import java.io.IOException;
 public class SingInServlet extends HttpServlet {
 
     private final UserService auth = new UserService();
+    private final AdminService admin = new AdminService();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -29,6 +31,9 @@ public class SingInServlet extends HttpServlet {
             if (checkData(username, password)) {
                 User user = getUser(username);
                 req.getSession().setAttribute("user", user);
+                if (user.getStatus().equals("admin")) {
+                    req.getSession().setAttribute("userList", admin.getUserList());
+                }
                 resp.sendRedirect("/pages/home/home.jsp");
                 return;
             } else {

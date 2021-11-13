@@ -1,7 +1,7 @@
 package by.tms.repository.configs;
 
 public class Const {
-    public static final String addUserQuery = "INSERT INTO user (name, username, password) VALUES (?, ?, ?)";
+    public static final String addUserQuery = "INSERT INTO user (name, username, password, status) VALUES (?, ?, ?, ?)";
     public static final String checkUsernameQuery = "SELECT * FROM user WHERE username = ?";
     public static final String checkPasswordQuery = "SELECT * FROM user WHERE password = ? AND username = ?";
     public static final String getUserQuery = "SELECT * FROM user WHERE username = ?";
@@ -9,6 +9,8 @@ public class Const {
     public static final String changePasswordQuery = "UPDATE user SET password = ? WHERE id = ?";
     public static final String deleteUserQuery = "DELETE FROM user WHERE id = ?";
     public static final String getUserListQuery = "SELECT * FROM user";
+    public static final String addAdminStatus = "UPDATE user SET status = 'admin' WHERE id = ?";
+    public static final String removeAdminStatus = "UPDATE user SET status = 'user' WHERE id = ?";
 
 
     public static final String addOperationQuery = "INSERT INTO operations (num1, num2, operation, result, user_id) " +

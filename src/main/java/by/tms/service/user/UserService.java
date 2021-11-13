@@ -1,5 +1,6 @@
 package by.tms.service.user;
 
+import by.tms.entity.Status;
 import by.tms.entity.User;
 import by.tms.repository.UserRepository;
 
@@ -23,7 +24,8 @@ public class UserService {
     }
 
     public void createUser(String name, String username, String password) {
-        User user = new User(name, username, password);
+        String status = String.valueOf(Status.USER).toLowerCase();
+        User user = new User(name, username, password, status);
         userRepository.addUser(user);
     }
 
