@@ -12,17 +12,7 @@
     <title>Profile</title>
 </head>
 <body>
-<c:if test="${sessionScope.user != null}">
-    <form action="${pageContext.request.contextPath}/profile" method="post"></form>
-    <a href="${pageContext.request.contextPath}/profile"> Personal |</a>
-    <a href="${pageContext.request.contextPath}/changer_name"> Change name |</a>
-    <a href="${pageContext.request.contextPath}/changer_password"> Change password |</a>
-    <a href="${pageContext.request.contextPath}/delete_profile"> Delete account |</a>
-    <a href="${pageContext.request.contextPath}/pages/home/home.jsp"> Back </a>
-</c:if>
-
-<c:if test="${sessionScope.user == null}">
-    <a href="${pageContext.request.contextPath}/pages/home/home.jsp"> Back to sing in</a>
-</c:if>
+<jsp:include page="/pages/home/_header.jsp"/>
+<jsp:include page="/pages/home/_profileHeader.jsp"/>
 </body>
 </html>

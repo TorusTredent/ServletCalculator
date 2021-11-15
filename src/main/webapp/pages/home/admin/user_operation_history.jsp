@@ -13,24 +13,27 @@
     <title>User operation history</title>
 </head>
 <body>
-    <c:if test="${sessionScope.user.status eq 'admin'}">
-        <form action="/userOperationList" method="post">
-            <button type="submit" name="back" value="back">Back</button>
-            <input type="submit" value="Show" name="show"/>
-            <input type="submit" value="Hide" name="hide"/>
-            <c:if test="${sessionScope.adminOperationList != null}">
-                <ul>
-                    <c:forEach var="operations" items="${sessionScope.adminOperationList}">
-                        <li><c:out value="${operations}"/></li>
-                    </c:forEach>
-                </ul
+<jsp:include page="/pages/home/_header.jsp"/>
+<div class="container">
+    <div class="row justify-content-center m-3">
+        <div class="col-sm-12">
+            <c:if test="${sessionScope.user.status eq 'admin'}">
+                <form action="/userOperationList" method="post">
+                    <button type="submit" class="btn btn-primary"  name="back" value="back">Back</button>
+                    <input type="submit" class="btn btn-primary" value="Show" name="show"/>
+                    <input type="submit" class="btn btn-primary" value="Hide" name="hide"/>
+                    <c:if test="${sessionScope.adminOperationList != null}">
+                        <ul class="list-group list-group-numbered">
+                            <c:forEach var="operations" items="${sessionScope.adminOperationList}">
+                                <li class="list-group-item"><c:out value="${operations}"/></li>
+                            </c:forEach>
+                        </ul>
+                    </c:if>
+                </form>
             </c:if>
-        </form>
-    </c:if>
+        </div>
+    </div>
+</div>
 
-
-<c:if test="${!sessionScope.user.status eq 'admin'}">
-    <a href="/pages/home/home.jsp"> Back to sing in</a>
-</c:if>
 </body>
 </html>

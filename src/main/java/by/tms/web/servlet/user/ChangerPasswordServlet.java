@@ -31,7 +31,7 @@ public class ChangerPasswordServlet extends HttpServlet {
             user.setPassword(newPassword);
             req.setAttribute("message", "Changes complete ");
         } else {
-            req.setAttribute("message", "New password not entered");
+            req.setAttribute("alert", "New password not entered");
         }
         getServletContext().getRequestDispatcher("/pages/home/profile/change_password.jsp").forward(req, resp);
     }

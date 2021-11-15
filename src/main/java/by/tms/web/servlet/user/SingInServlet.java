@@ -1,6 +1,7 @@
 package by.tms.web.servlet.user;
 
 import by.tms.entity.User;
+import by.tms.service.calc.ShowService;
 import by.tms.service.user.AdminService;
 import by.tms.service.user.UserService;
 
@@ -10,12 +11,15 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.LinkedList;
+import java.util.List;
 
 @WebServlet(value = "/authorization", name = "AuthorizationServlet")
 public class SingInServlet extends HttpServlet {
 
     private final UserService auth = new UserService();
     private final AdminService admin = new AdminService();
+    private final ShowService showService = new ShowService();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -34,13 +38,15 @@ public class SingInServlet extends HttpServlet {
                 if (user.getStatus().equals("admin")) {
                     req.getSession().setAttribute("userList", admin.getUserList());
                 }
+                List<String> operationList = showService.showOperations(user.getId());
+                req.getSession().setAttribute("operationList", operationList);
                 resp.sendRedirect("/pages/home/home.jsp");
                 return;
             } else {
-                req.setAttribute("message", "Username or password entered incorrectly ");
+                req.setAttribute("alert", "Username or password entered incorrectly ");
             }
         } else {
-            req.setAttribute("message", "Username or password not entered");
+            req.setAttribute("alert", "Username or password not entered");
         }
         getServletContext().getRequestDispatcher("/pages/home/auth/singIn.jsp").forward(req, resp);
     }

@@ -19,6 +19,7 @@ import java.util.List;
 public class CalculatorServlet extends HttpServlet {
 
     private final CalcService calc = new CalcService();
+    private final ShowService showService = new ShowService();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
@@ -32,7 +33,7 @@ public class CalculatorServlet extends HttpServlet {
         String operation = req.getParameter("operation");
 
         if (!checkInputValueForNull(num1, num2, operation)) {
-            req.setAttribute("message", "Number 1, number2 or operation not entered");
+            req.setAttribute("alert", "Number 1, number2 or operation not entered");
         } else {
             if (checkValues(num1, num2, operation)) {
                 User user = (User) req.getSession().getAttribute("user");
@@ -42,12 +43,12 @@ public class CalculatorServlet extends HttpServlet {
                 addCalculatedInMemory(oper);
 
                 String calculated = "Operation " + oper.getOperation() + " = " + oper.getResult();
-                req.setAttribute("message", calculated);
+                req.setAttribute("calcMessage", calculated);
 
-                List<Operation> list = getOperationList(user.getId());
-                req.getSession().setAttribute("operationList", prepareToAttribute(list));
+                List<String> list = showService.showOperations(user.getId());
+                req.getSession().setAttribute("operationList", list);
             } else {
-                req.setAttribute("message", "Incorrect data entered");
+                req.setAttribute("alert", "Incorrect data entered");
             }
         }
         getServletContext().getRequestDispatcher("/pages/home/calculator/calculator.jsp").forward(req, resp);
@@ -102,20 +103,5 @@ public class CalculatorServlet extends HttpServlet {
                 return false;
             }
         }
-    }
-
-    private List<String> prepareToAttribute(List<Operation> list) {
-        List<String> operationList = new ArrayList<>();
-        for (Operation value : list) {
-            operationList.add("Operation " + value.getOperation() + " = " + value.getResult());
-        }
-        Collections.reverse(operationList);
-        return operationList;
-    }
-
-
-    private List<Operation> getOperationList(int userId) {
-        ShowService show = new ShowService();
-        return show.showOperations(userId);
     }
 }

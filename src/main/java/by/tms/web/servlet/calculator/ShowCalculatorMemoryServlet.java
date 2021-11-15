@@ -18,6 +18,8 @@ import java.util.List;
 @WebServlet(value = "/show_history", name = "ShowCalculatorMemoryServlet")
 public class ShowCalculatorMemoryServlet extends HttpServlet {
 
+    private final  ShowService showServ = new ShowService();
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         getServletContext().getRequestDispatcher("/pages/home/calculator/show_calc_history.jsp").forward(req, resp);
@@ -34,28 +36,13 @@ public class ShowCalculatorMemoryServlet extends HttpServlet {
         }
 
         if (show != null) {
-            LinkedList<Operation> list = getOperationList(user.getId());
-            if (list.isEmpty()) {
+            List<String> prepList = showServ.showOperations(user.getId());
+            if (prepList.isEmpty()) {
                 req.getSession().setAttribute("operationList", null);
             } else {
-                req.getSession().setAttribute("operationList", prepareToAttribute(list));
+                req.getSession().setAttribute("operationList",prepList);
             }
         }
         getServletContext().getRequestDispatcher("/pages/home/calculator/show_calc_history.jsp").forward(req, resp);
-    }
-
-    private List<String> prepareToAttribute(List<Operation> list) {
-        List<String> operationList = new ArrayList<>();
-        for (Operation value : list) {
-            operationList.add("Operation " + value.getOperation() + " = " + value.getResult());
-        }
-        Collections.reverse(operationList);
-        return operationList;
-    }
-
-
-    private LinkedList<Operation> getOperationList(int userId) {
-        ShowService show = new ShowService();
-        return show.showOperations(userId);
     }
 }

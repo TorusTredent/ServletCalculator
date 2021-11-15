@@ -44,24 +44,13 @@ public class ShowUserOperationsServlet extends HttpServlet {
         }
 
         if (show != null) {
-            LinkedList<Operation> operationList = showServ.showOperations(user.getId());
+            List<String> operationList = showServ.showOperations(user.getId());
             if (operationList.isEmpty()) {
                 req.getSession().setAttribute("adminOperationList", null);
             } else {
-                req.getSession().setAttribute("adminOperationList", prepareToAttribute(operationList));
+                req.getSession().setAttribute("adminOperationList", operationList);
             }
         }
         getServletContext().getRequestDispatcher("/pages/home/admin/user_operation_history.jsp").forward(req, resp);
     }
-
-    private List<String> prepareToAttribute(List<Operation> list) {
-        List<String> operationList = new ArrayList<>();
-        for (Operation value : list) {
-            operationList.add("Operation " + value.getOperation() + " = " + value.getResult());
-        }
-        Collections.reverse(operationList);
-        return operationList;
-    }
-
-
 }

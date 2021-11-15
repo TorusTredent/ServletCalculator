@@ -15,23 +15,26 @@
     <title>User profile</title>
 </head>
 <body>
-<c:if test="${sessionScope.user != null}">
-    <form action="/profile" method="post">
-        <button>Show</button>
-        <c:if test="${sessionScope.userProfile != null}">
-            <c:forEach begin="0" end="${fn:length(userProfile) - 1}" var="index">
-                <br>
-                <tr>
-                    <td><c:out value="${userProfile[index]}"/></td>
-                </tr>
-            </c:forEach>
-        </c:if>
-    </form>
-    <a href="${pageContext.request.contextPath}/pages/home/profile/profile.jsp"> Back </a>
-</c:if>
+<jsp:include page="/pages/home/_header.jsp"/>
+<jsp:include page="/pages/home/_profileHeader.jsp"/>
+<div class="container">
+    <div class="row justify-content-center m-3">
+        <div class="col-sm-12">
+            <c:if test="${sessionScope.user != null}">
+                <form action="/profile" method="post">
+                    <button class="btn btn-primary">Show</button>
+                    <c:if test="${sessionScope.userProfile != null}">
+                        <ul class="list-group list-group-flush">
+                            <c:forEach var="profile" items="${sessionScope.userProfile}">
+                                <li class="list-group-item"><c:out value="${profile}"/></li>
+                            </c:forEach>
+                        </ul>
+                    </c:if>
+                </form>
+            </c:if>
 
-<c:if test="${sessionScope.user == null}">
-    <a href="${pageContext.request.contextPath}/pages/home/home.jsp"> Back to sing in</a>
-</c:if>
+        </div>
+    </div>
+</div>
 </body>
 </html>

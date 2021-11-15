@@ -13,38 +13,39 @@
     <title>Users</title>
 </head>
 <body>
-<c:if test="${sessionScope.user.status eq 'admin'}">
-    <p>Таблица пользователей
-        <a href="/pages/home/home.jsp">Back </a>
-    </p>
-    <c:if test="${sessionScope.userList != null}">
-        <ol>
-            <c:forEach begin="0" end="${fn:length(userList) - 1}" var="index">
-                <li>
-                    <form action="/userList" method="post">
-                        <p>
-                            <label>
-                                <input type="text" name="userNumber" hidden value="${index}">
-                            </label>
-                            id - ${sessionScope.userList.get(index).id};
-                            username - ${sessionScope.userList.get(index).username};
-                            password - ${sessionScope.userList.get(index).password};
-                            name - ${sessionScope.userList.get(index).name};
-                            status - ${sessionScope.userList.get(index).status};
-                            <c:if test="${sessionScope.user.id != sessionScope.userList.get(index).id}">
-                                <button type="submit" name="operation" value="history">History</button>
-                                <button type="submit" name="operation" value="addAdmin">Add admin</button>
-                                <button type="submit" name="operation" value="removeAdmin">Remove admin</button>
-                                <button type="submit" name="operation" value="deleteUser">delete</button>
-                            </c:if>
-                        </p>
-                    </form>
-                </li>
-            </c:forEach>
-        </ol>
-    </c:if>
-</c:if>
-<p>${requestScope.message}</p>
-
+<jsp:include page="/pages/home/_header.jsp"/>
+<div class="container">
+    <div class="row justify-content-center m-3">
+        <div class="col-sm-12">
+            <c:if test="${sessionScope.user.status eq 'admin'}">
+                <p style="font-weight: bolder; text-align: center">
+                    Таблица пользователей
+                </p>
+                <c:if test="${sessionScope.userList != null}">
+                    <ol class="list-group list-group-numbered">
+                        <c:forEach begin="0" end="${fn:length(userList) - 1}" var="index">
+                            <li class="list-group-item">
+                                <form action="/userList" method="post">
+                                    <label><input type="text" name="userNumber" hidden value="${index}"></label>
+                                    id - ${sessionScope.userList.get(index).id};
+                                    username - ${sessionScope.userList.get(index).username};
+                                    password - ${sessionScope.userList.get(index).password};
+                                    name - ${sessionScope.userList.get(index).name};
+                                    status - ${sessionScope.userList.get(index).status};
+                                    <c:if test="${sessionScope.user.id != sessionScope.userList.get(index).id}">
+                                        <button type="submit" name="operation" class="btn btn-primary" value="history">History</button>
+                                        <button type="submit" name="operation" class="btn btn-warning" value="addAdmin">Add admin</button>
+                                        <button type="submit" name="operation" class="btn btn-success" value="removeAdmin">Remove admin</button>
+                                        <button type="submit" name="operation" class="btn btn-danger" value="deleteUser">delete</button>
+                                    </c:if>
+                                </form>
+                            </li>
+                        </c:forEach>
+                    </ol>
+                </c:if>
+            </c:if>
+        </div>
+    </div>
+</div>
 </body>
 </html>

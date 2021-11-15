@@ -19,7 +19,6 @@ public class DeleteUserProfileServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         User user = (User) req.getSession().getAttribute("user");
         deleteUser(user.getId());
-        resp.getWriter().println("User delete");
         req.getSession().invalidate();
         resp.sendRedirect("/pages/home/home.jsp");
     }

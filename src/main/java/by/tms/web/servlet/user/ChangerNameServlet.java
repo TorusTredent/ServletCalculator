@@ -31,7 +31,7 @@ public class ChangerNameServlet extends HttpServlet {
             user.setName(newName);
             req.setAttribute("message", "Changes complete ");
         } else {
-            req.setAttribute("message", "New name not entered");
+            req.setAttribute("alert", "New name not entered");
         }
         getServletContext().getRequestDispatcher("/pages/home/profile/change_name.jsp").forward(req, resp);
     }

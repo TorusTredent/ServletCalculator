@@ -32,10 +32,10 @@ public class RegistrationServlet extends HttpServlet {
                 resp.sendRedirect("/pages/home/home.jsp");
                 return;
             } else {
-                req.setAttribute("message", "Username is already used");
+                req.setAttribute("alert", "Username is already used");
             }
         } else {
-            req.setAttribute("message","Name, username or password not entered");
+            req.setAttribute("alert","Name, username or password not entered");
         }
         getServletContext().getRequestDispatcher("/pages/home/auth/registration.jsp").forward(req, resp);
     }
