@@ -16,11 +16,11 @@
 </head>
 <body>
 <jsp:include page="/pages/home/_header.jsp"/>
-<jsp:include page="/pages/home/_profileHeader.jsp"/>
-<div class="container">
-    <div class="row justify-content-center m-3">
-        <div class="col-sm-12">
-            <c:if test="${sessionScope.user != null}">
+<c:if test="${sessionScope.user != null}">
+    <jsp:include page="/pages/home/_profileHeader.jsp"/>
+    <div class="container">
+        <div class="row justify-content-center m-3">
+            <div class="col-sm-12">
                 <form action="/profile" method="post">
                     <button class="btn btn-primary">Show</button>
                     <c:if test="${sessionScope.userProfile != null}">
@@ -31,10 +31,9 @@
                         </ul>
                     </c:if>
                 </form>
-            </c:if>
-
+            </div>
         </div>
     </div>
-</div>
+</c:if>
 </body>
 </html>

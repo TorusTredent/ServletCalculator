@@ -15,10 +15,10 @@
 <jsp:include page="/pages/home/_header.jsp"/>
 <jsp:include page="/pages/home/_profileHeader.jsp"/>
 
-<div class="container">
-    <div class="row justify-content-center m-3">
-        <div class="col-sm-12">
-            <c:if test="${sessionScope.user != null}">
+<c:if test="${sessionScope.user != null}">
+    <div class="container">
+        <div class="row justify-content-center m-3">
+            <div class="col-sm-12">
                 <form action="/changer_password" method="post">
                     <div class="col-sm-3">
                         <div class="form-floating mb-3">
@@ -49,9 +49,9 @@
                         </div>
                     </div>
                 </c:if>
-            </c:if>
+            </div>
         </div>
     </div>
-</div>
+</c:if>
 </body>
 </html>

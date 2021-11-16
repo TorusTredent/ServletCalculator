@@ -17,7 +17,7 @@ public class Const {
                                                         "VALUES (?,?,?,?,?)";
     public static final String getOperationListQuery = "SELECT num1, num2, operation, result FROM" +
                                                             " operations WHERE user_id = ?";
-    public static final String removeAllOperationsQuery = "DELETE FROM user WHERE user_id = ?";
+    public static final String removeAllOperationsQuery = "DELETE FROM operations WHERE user_id = ?";
 
 
 

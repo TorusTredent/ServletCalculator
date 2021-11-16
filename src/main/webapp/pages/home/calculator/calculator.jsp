@@ -45,6 +45,13 @@
                         </div>
                     </div>
                 </form>
+                <form action="/remove_history" method="get">
+                    <div class="col-sm-2">
+                        <div class="row m-2">
+                            <button type="submit" class="btn btn-outline-primary">Delete hostory</button>
+                        </div>
+                    </div>
+                </form>
                 <c:if test="${requestScope.calcMessage != null}">
                     <div class="alert alert-success" role="alert">
                             ${requestScope.calcMessage}

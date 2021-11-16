@@ -13,6 +13,8 @@
 </head>
 <body>
 <jsp:include page="/pages/home/_header.jsp"/>
-<jsp:include page="/pages/home/_profileHeader.jsp"/>
+<c:if test="${sessionScope.user != null}">
+    <jsp:include page="/pages/home/_profileHeader.jsp"/>
+</c:if>
 </body>
 </html>
